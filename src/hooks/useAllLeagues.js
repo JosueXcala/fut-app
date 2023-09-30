@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { useState } from "react";
 
 export const useAllLeagues = async () => {
@@ -6,15 +7,13 @@ export const useAllLeagues = async () => {
   const [error, setError] = useState("");
   const [leagues, setLeagues] = useState([]);
   try {
-    const response = await fetch(
+    const response = await axios.get(
       "https://www.thesportsdb.com/api/v1/json/3/all_leagues.php"
     );
-    if (!response.ok) {
-      throw new Error("Network response wast no Ok");
-    }
+    console.log(await response.json());
     const leaguesResponse = await response.json();
-    console.log(leagues);
-    setLeagues([leaguesResponse]);
+    console.log(leaguesResponse);
+
     setIsLoading(false);
   } catch (error) {
     setError(`Ups some sings looks like were wrong ${error}`);
@@ -25,5 +24,3 @@ export const useAllLeagues = async () => {
     leagues,
   };
 };
-
-export default useAllLeagues;
